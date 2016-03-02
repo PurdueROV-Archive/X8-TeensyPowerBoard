@@ -38,7 +38,7 @@ void Overseer::update(vect6 force, vect3 pivotPos, char on_off)
 // @note - Run in main while loop (not during interrupt).
 int Overseer::checkForUpdate(void)
 {
-	if (flag_NewData)
+	if (flag_NewData == NEW_DATA)
 		calculateAndPush();
 	return flag_NewData;
 }
@@ -47,7 +47,39 @@ int Overseer::checkForUpdate(void)
 void Overseer::calculateAndPush(void)
 {
 	thrustMapper.calculateThrustMap(target_force);
+    int max = 0;
+    if ((max = max8(thrustMapper.thrust_map)) > THRUST_MAX)
+        scaleOverflow(&thrustMapper.thrust_map, max);
 	// send the thrustMapper.thrust_map to the motors (thrusters) here:
+}
+
+
+// Scales all thrust values by the maximum overflowing thrust, keeping the same force vector.
+void Overseer::scaleOverflow(vect8 * thrust_map, int32_t max)
+{
+    if (max < THRUST_MAX)
+        return;
+
+    float scale = (float) THRUST_MAX / max;
+    scale *= FLOATPT_TO_INT_SCALE;
+
+    thrust_map->a *= scale;
+    thrust_map->b *= scale;
+    thrust_map->c *= scale;
+    thrust_map->d *= scale;
+    thrust_map->e *= scale;
+    thrust_map->f *= scale;
+    thrust_map->g *= scale;
+    thrust_map->h *= scale;
+
+    thrust_map->a /= (int32_t)FLOATPT_TO_INT_SCALE;
+    thrust_map->b /= (int32_t)FLOATPT_TO_INT_SCALE;
+    thrust_map->c /= (int32_t)FLOATPT_TO_INT_SCALE;
+    thrust_map->d /= (int32_t)FLOATPT_TO_INT_SCALE;
+    thrust_map->e /= (int32_t)FLOATPT_TO_INT_SCALE;
+    thrust_map->f /= (int32_t)FLOATPT_TO_INT_SCALE;
+    thrust_map->g /= (int32_t)FLOATPT_TO_INT_SCALE;
+    thrust_map->h /= (int32_t)FLOATPT_TO_INT_SCALE;
 }
 
 
@@ -108,3 +140,11 @@ void Overseer::doRamping(void)
     //send through CAN to motors
     
 }
+
+
+// FOR DEBUGGING USE ONLY!!!
+vect8 Overseer::getThrust_Map(void)
+{
+  return thrustMapper.thrust_map;
+}
+

@@ -11,8 +11,9 @@ int d = 200;
 FlexCAN can(500000);
 Overseer overseer;
 CAN_message_t message;
-uint16_t thrusters[6];
+int16_t thrusters[6];
 volatile uint_fast8_t RampTicker;
+long period = 0;
 
 void setup() {
   // put your setup code here, to run once:
@@ -23,6 +24,7 @@ void setup() {
   //message.timeout = 0;
   can.begin();
   overseer = Overseer();
+  Serial.begin(115200);
 
   /*message.len = 8;
   message.id = 0x13;
@@ -40,6 +42,8 @@ void loop() {
   delay(d);
   digitalWrite(led, LOW);
   delay(d); */
+  
+  digitalWrite(led, LOW);
 
   overseer.checkForUpdate();
 
@@ -48,8 +52,45 @@ void loop() {
     overseer.doRamping();
     RampTicker = 0;
   }
+  Serial.print("Thrusters: ");
+  Serial.print(thrusters[0]);
+  Serial.print(" : ");
+  Serial.print(thrusters[1]);
+  Serial.print(" : ");
+  Serial.print(thrusters[2]);
+  Serial.print(" : ");
+  Serial.print(thrusters[3]);
+  Serial.print(" : ");
+  Serial.print(thrusters[4]);
+  Serial.print(" : ");
+  Serial.print(thrusters[5]);
+  Serial.print(" : ms: ");
+  Serial.print(millis() - period);
+  Serial.print("       ");
+  
+  Serial.print("thrust_map: ");
+  Serial.print(overseer.getThrust_Map().a);
+  Serial.print(" : ");
+  Serial.print(overseer.getThrust_Map().b);
+  Serial.print(" : ");
+  Serial.print(overseer.getThrust_Map().c);
+  Serial.print(" : ");
+  Serial.print(overseer.getThrust_Map().d);
+  Serial.print(" : ");
+  Serial.print(overseer.getThrust_Map().e);
+  Serial.print(" : ");
+  Serial.print(overseer.getThrust_Map().f);
+  Serial.print(" : ");
+  Serial.print(overseer.getThrust_Map().g);
+  Serial.print(" : ");
+  Serial.println(overseer.getThrust_Map().h);
+
+  period = millis();
 
   while(can.read(message)) {
+    
+    digitalWrite(led, HIGH);
+    
     //if message came from main micro
     if (message.id == MAIN_CAN_ID && message.len == 8) {
       int j = 0;
@@ -79,4 +120,5 @@ void loop() {
       }
     }
   }
+
 }
