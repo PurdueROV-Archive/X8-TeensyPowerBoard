@@ -69,6 +69,7 @@ class ThrustMapper
 		vect3 getPivotPosition(void);
 		void calcZeroForceVector(void);
 		vect8 thrust_map;
+    ThrustMapperMatrices getThrustMapperMatrices(void);
 
 	private:
 		vect6 desired_force_vector;

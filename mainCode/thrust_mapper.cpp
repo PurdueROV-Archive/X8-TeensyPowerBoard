@@ -257,3 +257,9 @@ vect3 ThrustMapper::getPivotPosition(void)
 {
 	return pivotPosition;
 }
+
+ThrustMapperMatrices ThrustMapper::getThrustMapperMatrices(void)
+{
+  return mapper_matrices;
+}
+

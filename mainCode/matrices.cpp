@@ -4,6 +4,7 @@ January 2016
 Purdue IEEE ROV
 */
 #include "matrices.h"
+#include <stdlib.h>
 
 int32_t dot6(vect6 a, vect6 b)
 {
@@ -102,15 +103,15 @@ vect6 div6(vect6 a, int32_t factor)
 
 int32_t max3(vect3 vect)
 {
-    return MAX(MAX(vect.x, vect.y), vect.z);
+    return MAX(MAX(abs(vect.x), abs(vect.y)), abs(vect.z));
 }
 int32_t max6(vect6 vect)
 {
-    return MAX(MAX(MAX(MAX(MAX(vect.L.x, vect.L.y), vect.L.z), vect.R.x), vect.R.y), vect.R.z);
+    return MAX(MAX(MAX(MAX(MAX(abs(vect.L.x), abs(vect.L.y)), abs(vect.L.z)), abs(vect.R.x)), abs(vect.R.y)), abs(vect.R.z));
 }
 int32_t max8(vect8 vect)
 {
-    return MAX(MAX(MAX(MAX(MAX(MAX(MAX(vect.a, vect.b), vect.c), vect.d), vect.e), vect.f), vect.g), vect.h);
+    return MAX(MAX(MAX(MAX(MAX(MAX(MAX(abs(vect.a), abs(vect.b)), abs(vect.c)), abs(vect.d)), abs(vect.e)), abs(vect.f)), abs(vect.g)), abs(vect.h));
 }
 
 vect3 vect3Make(int32_t a, int32_t b, int32_t c)

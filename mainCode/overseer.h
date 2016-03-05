@@ -58,9 +58,15 @@ class Overseer
 		void calculateAndPush(void);
 		void updateFromThrusters(void);
 		void scaleOverflow(vect8 * thrust_map, int32_t max);
-        void doRamping(void);
+    void doRamping(void);
 		int flag_NewData;
+    int is_Overflowing;
+
+    // DEBUG METHODS:
     vect8 getThrust_Map(void);
+    ThrustMapper getThrustMapper(void);
+    vect6 getTargetForce(void);
+    int areOverseerAndMapperCommunicating(void);
 
 	private:
 		ThrustersContainer thrusters;

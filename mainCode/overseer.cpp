@@ -17,6 +17,9 @@ Overseer::Overseer(void)
 		thrusters.voltages[i] = 0;
 	for (i = 0; i < 8; i++)
 		thrusters.enabled[i] = 0;
+  target_force = vect6Make(0,0,0,0,0,0);
+  flag_NewData = 0;
+  is_Overflowing = 0;
 }
 
 
@@ -39,7 +42,10 @@ void Overseer::update(vect6 force, vect3 pivotPos, char on_off)
 int Overseer::checkForUpdate(void)
 {
 	if (flag_NewData == NEW_DATA)
+  {
+    flag_NewData = NO_NEW_DATA;
 		calculateAndPush();
+  }
 	return flag_NewData;
 }
 
@@ -48,8 +54,11 @@ void Overseer::calculateAndPush(void)
 {
 	thrustMapper.calculateThrustMap(target_force);
     int max = 0;
+    is_Overflowing = max8(thrustMapper.thrust_map);
     if ((max = max8(thrustMapper.thrust_map)) > THRUST_MAX)
         scaleOverflow(&thrustMapper.thrust_map, max);
+    //else
+      //  is_Overflowing = 0;
 	// send the thrustMapper.thrust_map to the motors (thrusters) here:
 }
 
@@ -57,9 +66,11 @@ void Overseer::calculateAndPush(void)
 // Scales all thrust values by the maximum overflowing thrust, keeping the same force vector.
 void Overseer::scaleOverflow(vect8 * thrust_map, int32_t max)
 {
+
     if (max < THRUST_MAX)
         return;
 
+    is_Overflowing = 1;
     float scale = (float) THRUST_MAX / max;
     scale *= FLOATPT_TO_INT_SCALE;
 
@@ -146,5 +157,24 @@ void Overseer::doRamping(void)
 vect8 Overseer::getThrust_Map(void)
 {
   return thrustMapper.thrust_map;
+}
+
+ThrustMapper Overseer::getThrustMapper(void)
+{
+  return thrustMapper;
+}
+
+vect6 Overseer::getTargetForce(void)
+{
+  return target_force;
+}
+
+int Overseer::areOverseerAndMapperCommunicating(void)
+{
+  int i = 0;
+
+  i = (target_force.L.x == thrustMapper.getCurrentForceVector().L.x && target_force.L.y == thrustMapper.getCurrentForceVector().L.y && target_force.L.z == thrustMapper.getCurrentForceVector().L.z && target_force.R.x == thrustMapper.getCurrentForceVector().R.x && target_force.R.y == thrustMapper.getCurrentForceVector().R.y && target_force.R.z == thrustMapper.getCurrentForceVector().R.z) ? 1 : 0;
+  
+  return i;
 }
 

@@ -5,6 +5,7 @@ Purdue IEEE ROV
 */
 
 #include <stdint.h>
+//#include <stdlib.h>
 
 #ifndef __MATRICES__H
 #define __MATRICES__H
@@ -69,8 +70,8 @@ typedef struct{
 }matrix2_2;
 
 
-#define MAX(x,y) (x > y) ? x : y
-#define MIN(x,y) (x > y) ? y : x
+#define MAX(x,y) (x > y) ? (x) : (y)
+#define MIN(x,y) (x > y) ? (y) : (x)
 
 
 vect3 cross(vect3, vect3);
