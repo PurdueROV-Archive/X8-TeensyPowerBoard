@@ -70,8 +70,8 @@ typedef struct{
 }matrix2_2;
 
 
-#define MAX(x,y) (x > y) ? (x) : (y)
-#define MIN(x,y) (x > y) ? (y) : (x)
+#define MAX(x,y) ((x > y) ? (x) : (y))
+#define MIN(x,y) ((x > y) ? (y) : (x))
 
 
 vect3 cross(vect3, vect3);
@@ -98,6 +98,7 @@ vect6 div6(vect6, int32_t);
 vect3 vect3Make(int32_t, int32_t, int32_t);
 vect6 vect6Make(int32_t, int32_t, int32_t, int32_t, int32_t, int32_t);
 vect2 vect2Make(int32_t, int32_t);
+vect8 vect8Make(int32_t, int32_t, int32_t, int32_t, int32_t, int32_t, int32_t, int32_t);
 
 vect8 matMul_86x61(matrix8_6, vect6);
 vect3 matMul_33x31(matrix3_3,vect3);

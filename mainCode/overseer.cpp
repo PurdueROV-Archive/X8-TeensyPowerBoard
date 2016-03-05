@@ -54,11 +54,10 @@ void Overseer::calculateAndPush(void)
 {
 	thrustMapper.calculateThrustMap(target_force);
     int max = 0;
-    is_Overflowing = max8(thrustMapper.thrust_map);
     if ((max = max8(thrustMapper.thrust_map)) > THRUST_MAX)
         scaleOverflow(&thrustMapper.thrust_map, max);
-    //else
-      //  is_Overflowing = 0;
+    else
+        is_Overflowing = 0;
 	// send the thrustMapper.thrust_map to the motors (thrusters) here:
 }
 
@@ -66,7 +65,6 @@ void Overseer::calculateAndPush(void)
 // Scales all thrust values by the maximum overflowing thrust, keeping the same force vector.
 void Overseer::scaleOverflow(vect8 * thrust_map, int32_t max)
 {
-
     if (max < THRUST_MAX)
         return;
 

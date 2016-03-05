@@ -139,6 +139,20 @@ vect2 vect2Make(int32_t a, int32_t b)
     return result;
 }
 
+vect8 vect8Make(int32_t a, int32_t b, int32_t c, int32_t d, int32_t e, int32_t f, int32_t g, int32_t h)
+{
+    vect8 result;
+    result.a = a;
+    result.b = b;
+    result.c = c;
+    result.d = d;
+    result.e = e;
+    result.f = f;
+    result.g = g;
+    result.h = h;
+    return result;
+}
+
 vect8 matMul_86x61(matrix8_6 mat, vect6 v)
 {
     vect8 result;

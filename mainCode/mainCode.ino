@@ -3,6 +3,7 @@
 #include "thrust_mapper.h"
 #include <FlexCAN.h>
 #include <kinetis_flexcan.h>
+#include <stdlib.h>
 
 #define MAIN_CAN_ID 0x13
 
