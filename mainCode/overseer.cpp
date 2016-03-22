@@ -7,6 +7,7 @@
 // CONSTRUCTOR:
 Overseer::Overseer(void)
 {
+	//GREAT CODE
 	int i;
 	flag_NewData = NEW_DATA;
 	for (i = 0; i < 8; i++)
