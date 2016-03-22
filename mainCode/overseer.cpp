@@ -167,10 +167,8 @@ vect6 Overseer::getTargetForce(void)
 
 int Overseer::areOverseerAndMapperCommunicating(void)
 {
-  int i = 0;
-
-  i = (target_force.L.x == thrustMapper.getCurrentForceVector().L.x && target_force.L.y == thrustMapper.getCurrentForceVector().L.y && target_force.L.z == thrustMapper.getCurrentForceVector().L.z && target_force.R.x == thrustMapper.getCurrentForceVector().R.x && target_force.R.y == thrustMapper.getCurrentForceVector().R.y && target_force.R.z == thrustMapper.getCurrentForceVector().R.z) ? 1 : 0;
+  vect6 currentForceVector = thrustMapper.getCurrentForceVector();
   
-  return i;
+  return (target_force.L.x == currentForceVector.L.x && target_force.L.y == currentForceVector.L.y && target_force.L.z == currentForceVector.L.z && target_force.R.x == currentForceVector.R.x && target_force.R.y == currentForceVector.R.y && target_force.R.z == currentForceVector.R.z);
 }
 
