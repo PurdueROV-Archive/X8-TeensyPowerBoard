@@ -7,6 +7,11 @@
 #include "matrices.h"
 #include "thrust_mapper.h"
 
+#include <Wire.h>
+#include "Arduino_I2C_ESC.h"
+
+#define ESC_ADDRESS_0 0x29
+
 
 // STRUCTS:
 
@@ -61,6 +66,7 @@ class Overseer
     	void doRamping(void);
 		int flag_NewData;
     int is_Overflowing;
+    void sendToMotors(void);
 
     // DEBUG METHODS:
     vect8 getThrust_Map(void);
@@ -74,6 +80,10 @@ class Overseer
 		vect6 target_force;
         vect6 Tset;
         vect6 Tcurrent;
+  Arduino_I2C_ESC motors[8];
+  vect8 currentDeliveredThrust;
+    
+    
         
 
 };

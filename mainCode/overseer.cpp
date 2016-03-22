@@ -7,14 +7,17 @@
 // CONSTRUCTOR:
 Overseer::Overseer(void)
 {
-
+	int i;
 	flag_NewData = NEW_DATA;
-	for (int i = 0; i < 8; i++) {
+	for (i = 0; i < 8; i++)
+  {
 		thrusters.powers[i] = 0;
 		thrusters.currents[i] = 0;
 		thrusters.voltages[i] = 0;
 		thrusters.enabled[i] = 0;
-	}
+    motors[i] = Arduino_I2C_ESC::Arduino_I2C_ESC(ESC_ADDRESS_0+i);
+
+  }
   target_force = vect6Make(0,0,0,0,0,0);
   flag_NewData = 0;
   is_Overflowing = 0;
@@ -57,6 +60,24 @@ void Overseer::calculateAndPush(void)
     else
         is_Overflowing = 0;
 	// send the thrustMapper.thrust_map to the motors (thrusters) here:
+ sendToMotors();
+}
+
+void Overseer::sendToMotors(void)
+{
+  motors[0].set(currentDeliveredThrust.a);
+  motors[1].set(currentDeliveredThrust.b);
+  motors[2].set(currentDeliveredThrust.c);
+  motors[3].set(currentDeliveredThrust.d);
+  motors[4].set(currentDeliveredThrust.e);
+  motors[5].set(currentDeliveredThrust.f);
+  motors[6].set(currentDeliveredThrust.g);
+  motors[7].set(currentDeliveredThrust.h);
+
+  for(int i = 0; i < 8; i++)
+  {
+    motors[i].update();
+  }
 }
 
 
@@ -99,45 +120,54 @@ void Overseer::updateFromThrusters(void)
 
 void Overseer::doRamping(void)
 {
-    //do any motor ramping which needs to occur, here
-    if (Tset.L.x > Tcurrent.L.x) {
-        Tcurrent.L.x += MIN(1024,Tset.L.x - Tcurrent.L.x);
-    } else if(Tset.L.x < Tcurrent.L.x){
-        Tcurrent.L.x += MAX(-1024,Tset.L.x - Tcurrent.L.x);
+    if (currentDeliveredThrust.a < thrustMapper.thrust_map.a) {
+      currentDeliveredThrust.a += MIN(1024, thrustMapper.thrust_map.a - currentDeliveredThrust.a)
+    } else {
+      currentDeliveredThrust.a += MAX(1024, thrustMapper.thrust_map.a - currentDeliveredThrust.a)
     }
     
-    if (Tset.L.y > Tcurrent.L.y) {
-        Tcurrent.L.y += MIN(1024,Tset.L.y - Tcurrent.L.y);
-    } else if(Tset.L.y < Tcurrent.L.y){
-        Tcurrent.L.y += MAX(-1024,Tset.L.y - Tcurrent.L.y);
+    if (currentDeliveredThrust.b < thrustMapper.thrust_map.b) {
+      currentDeliveredThrust.b += MIN(1024, thrustMapper.thrust_map.b - currentDeliveredThrust.b)
+    } else {
+      currentDeliveredThrust.b += MAX(1024, thrustMapper.thrust_map.b - currentDeliveredThrust.b)
     }
     
-    if (Tset.L.z > Tcurrent.L.z) {
-        Tcurrent.L.z += MIN(1024,Tset.L.z - Tcurrent.L.z);
-    } else if(Tset.L.z < Tcurrent.L.z){
-        Tcurrent.L.z += MAX(-1024,Tset.L.z - Tcurrent.L.z);
+    if (currentDeliveredThrust.c < thrustMapper.thrust_map.c) {
+      currentDeliveredThrust.c += MIN(1024, thrustMapper.thrust_map.c - currentDeliveredThrust.c)
+    } else {
+      currentDeliveredThrust.c += MAX(1024, thrustMapper.thrust_map.c - currentDeliveredThrust.c)
     }
     
-    /////
-    
-    if (Tset.R.x > Tcurrent.R.x) {
-        Tcurrent.R.x += MIN(1024,Tset.R.x - Tcurrent.R.x);
-    } else if(Tset.R.x < Tcurrent.R.x){
-        Tcurrent.R.x += MAX(-1024,Tset.R.x - Tcurrent.R.x);
+    if (currentDeliveredThrust.d < thrustMapper.thrust_map.d) {
+      currentDeliveredThrust.d += MIN(1024, thrustMapper.thrust_map.d - currentDeliveredThrust.d)
+    } else {
+      currentDeliveredThrust.d += MAX(1024, thrustMapper.thrust_map.d - currentDeliveredThrust.d)
     }
     
-    if (Tset.R.y > Tcurrent.R.y) {
-        Tcurrent.R.y += MIN(1024,Tset.R.y - Tcurrent.R.y);
-    } else if(Tset.R.y < Tcurrent.R.y){
-        Tcurrent.R.y += MAX(-1024,Tset.R.y - Tcurrent.R.y);
+    if (currentDeliveredThrust.e < thrustMapper.thrust_map.e) {
+      currentDeliveredThrust.e += MIN(1024, thrustMapper.thrust_map.e - currentDeliveredThrust.e)
+    } else {
+      currentDeliveredThrust.e += MAX(1024, thrustMapper.thrust_map.e - currentDeliveredThrust.e)
     }
     
-    if (Tset.R.z > Tcurrent.R.z) {
-        Tcurrent.R.z += MIN(1024,Tset.R.z - Tcurrent.R.z);
-    } else if(Tset.R.z < Tcurrent.R.z){
-        Tcurrent.R.z += MAX(-1024,Tset.R.z - Tcurrent.R.z);
+    if (currentDeliveredThrust.f < thrustMapper.thrust_map.f) {
+      currentDeliveredThrust.f += MIN(1024, thrustMapper.thrust_map.f - currentDeliveredThrust.f)
+    } else {
+      currentDeliveredThrust.f += MAX(1024, thrustMapper.thrust_map.f - currentDeliveredThrust.f)
     }
     
+    if (currentDeliveredThrust.g < thrustMapper.thrust_map.g) {
+      currentDeliveredThrust.g += MIN(1024, thrustMapper.thrust_map.g - currentDeliveredThrust.g)
+    } else {
+      currentDeliveredThrust.g += MAX(1024, thrustMapper.thrust_map.g - currentDeliveredThrust.g)
+    }
+    
+    if (currentDeliveredThrust.h < thrustMapper.thrust_map.h) {
+      currentDeliveredThrust.h += MIN(1024, thrustMapper.thrust_map.h - currentDeliveredThrust.h)
+    } else {
+      currentDeliveredThrust.h += MAX(1024, thrustMapper.thrust_map.h - currentDeliveredThrust.h)
+    }
+
     //pseudo code
     //if Tset > T
         //T = T + min(1024,residual)
@@ -145,7 +175,7 @@ void Overseer::doRamping(void)
         //T = T - min(1024,residual)
     
     //send through CAN to motors
-    
+    sendToMotors();
 }
 
 
