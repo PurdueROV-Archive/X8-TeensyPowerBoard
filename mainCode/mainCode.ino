@@ -5,6 +5,7 @@
 #include <kinetis_flexcan.h>
 #include <stdlib.h>
 
+
 #define MAIN_CAN_ID 0x13
 #define CAN_TIMEOUT_LIMIT 500 //milliseconds
 
@@ -78,6 +79,7 @@ void loop() {
   Serial.print(overseer.getThrustMapper().getThrustMapperMatrices().currentMapperMatrix);
   Serial.print(":");
   Serial.print(overseer.areOverseerAndMapperCommunicating());
+
   
   
   /*
