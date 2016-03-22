@@ -7,17 +7,14 @@
 // CONSTRUCTOR:
 Overseer::Overseer(void)
 {
-	//GREAT CODE
-	int i;
+
 	flag_NewData = NEW_DATA;
-	for (i = 0; i < 8; i++)
+	for (int i = 0; i < 8; i++) {
 		thrusters.powers[i] = 0;
-	for (i = 0; i < 8; i++)
 		thrusters.currents[i] = 0;
-	for (i = 0; i < 8; i++)
 		thrusters.voltages[i] = 0;
-	for (i = 0; i < 8; i++)
 		thrusters.enabled[i] = 0;
+	}
   target_force = vect6Make(0,0,0,0,0,0);
   flag_NewData = 0;
   is_Overflowing = 0;
