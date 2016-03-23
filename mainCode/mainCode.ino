@@ -1,3 +1,4 @@
+#include <Wire.h>
 #include "matrices.h"
 #include "overseer.h"
 #include "thrust_mapper.h"
@@ -7,7 +8,6 @@
 
 
 #define MAIN_CAN_ID 0x13
-#define CAN_TIMEOUT_LIMIT 500 //milliseconds
 
 int led = 13;
 int d = 200;
@@ -17,7 +17,6 @@ CAN_message_t message;
 int16_t thrusters[6];
 volatile uint_fast8_t RampTicker;
 long period = 0;
-long timeout = 0;
 
 void setup() {
   // put your setup code here, to run once:
@@ -136,7 +135,6 @@ void loop() {
     
     //if message came from main micro
     if (message.id == MAIN_CAN_ID && message.len == 8) {
-      timeout = millis();
       switch (message.buf[0]) {
         case 'L': // longitudinal data
           memcpy(&thrusters[0], &(message.buf[1]), 2);
@@ -156,13 +154,6 @@ void loop() {
           break;
       }
     }
-    
-  }
-  // Checks if no CAN message has been received for the CAN_TIMEOUT_LIMIT, if so turn off motors.
-  if (millis() - timeout > CAN_TIMEOUT_LIMIT)
-  {
-    char enabled = 0;
-    overseer.update(vect6Make(0,0,0,0,0,0), vect3Make(0,0,0), enabled);
   }
   Serial.println(" ");
 }

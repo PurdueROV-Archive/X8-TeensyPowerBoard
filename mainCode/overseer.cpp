@@ -15,7 +15,7 @@ Overseer::Overseer(void)
 		thrusters.currents[i] = 0;
 		thrusters.voltages[i] = 0;
 		thrusters.enabled[i] = 0;
-    motors[i] = Arduino_I2C_ESC::Arduino_I2C_ESC(ESC_ADDRESS_0+i);
+    motors[i] = new Arduino_I2C_ESC(ESC_ADDRESS_0+i);
 
   }
   target_force = vect6Make(0,0,0,0,0,0);
@@ -65,19 +65,21 @@ void Overseer::calculateAndPush(void)
 
 void Overseer::sendToMotors(void)
 {
-  motors[0].set(currentDeliveredThrust.a);
-  motors[1].set(currentDeliveredThrust.b);
-  motors[2].set(currentDeliveredThrust.c);
-  motors[3].set(currentDeliveredThrust.d);
-  motors[4].set(currentDeliveredThrust.e);
-  motors[5].set(currentDeliveredThrust.f);
-  motors[6].set(currentDeliveredThrust.g);
-  motors[7].set(currentDeliveredThrust.h);
+
+  motors[0]->set(currentDeliveredThrust.a);
+  motors[1]->set(currentDeliveredThrust.b);
+  motors[2]->set(currentDeliveredThrust.c);
+  motors[3]->set(currentDeliveredThrust.d);
+  motors[4]->set(currentDeliveredThrust.e);
+  motors[5]->set(currentDeliveredThrust.f);
+  motors[6]->set(currentDeliveredThrust.g);
+  motors[7]->set(currentDeliveredThrust.h);
 
   for(int i = 0; i < 8; i++)
   {
-    motors[i].update();
+    motors[i]->update();
   }
+
 }
 
 
@@ -121,51 +123,51 @@ void Overseer::updateFromThrusters(void)
 void Overseer::doRamping(void)
 {
     if (currentDeliveredThrust.a < thrustMapper.thrust_map.a) {
-      currentDeliveredThrust.a += MIN(1024, thrustMapper.thrust_map.a - currentDeliveredThrust.a)
+      currentDeliveredThrust.a += MIN(1024, thrustMapper.thrust_map.a - currentDeliveredThrust.a);
     } else {
-      currentDeliveredThrust.a += MAX(1024, thrustMapper.thrust_map.a - currentDeliveredThrust.a)
+      currentDeliveredThrust.a += MAX(1024, thrustMapper.thrust_map.a - currentDeliveredThrust.a);
     }
     
     if (currentDeliveredThrust.b < thrustMapper.thrust_map.b) {
-      currentDeliveredThrust.b += MIN(1024, thrustMapper.thrust_map.b - currentDeliveredThrust.b)
+      currentDeliveredThrust.b += MIN(1024, thrustMapper.thrust_map.b - currentDeliveredThrust.b);
     } else {
-      currentDeliveredThrust.b += MAX(1024, thrustMapper.thrust_map.b - currentDeliveredThrust.b)
+      currentDeliveredThrust.b += MAX(1024, thrustMapper.thrust_map.b - currentDeliveredThrust.b);
     }
     
     if (currentDeliveredThrust.c < thrustMapper.thrust_map.c) {
-      currentDeliveredThrust.c += MIN(1024, thrustMapper.thrust_map.c - currentDeliveredThrust.c)
+      currentDeliveredThrust.c += MIN(1024, thrustMapper.thrust_map.c - currentDeliveredThrust.c);
     } else {
-      currentDeliveredThrust.c += MAX(1024, thrustMapper.thrust_map.c - currentDeliveredThrust.c)
+      currentDeliveredThrust.c += MAX(1024, thrustMapper.thrust_map.c - currentDeliveredThrust.c);
     }
     
     if (currentDeliveredThrust.d < thrustMapper.thrust_map.d) {
-      currentDeliveredThrust.d += MIN(1024, thrustMapper.thrust_map.d - currentDeliveredThrust.d)
+      currentDeliveredThrust.d += MIN(1024, thrustMapper.thrust_map.d - currentDeliveredThrust.d);
     } else {
-      currentDeliveredThrust.d += MAX(1024, thrustMapper.thrust_map.d - currentDeliveredThrust.d)
+      currentDeliveredThrust.d += MAX(1024, thrustMapper.thrust_map.d - currentDeliveredThrust.d);
     }
     
     if (currentDeliveredThrust.e < thrustMapper.thrust_map.e) {
-      currentDeliveredThrust.e += MIN(1024, thrustMapper.thrust_map.e - currentDeliveredThrust.e)
+      currentDeliveredThrust.e += MIN(1024, thrustMapper.thrust_map.e - currentDeliveredThrust.e);
     } else {
-      currentDeliveredThrust.e += MAX(1024, thrustMapper.thrust_map.e - currentDeliveredThrust.e)
+      currentDeliveredThrust.e += MAX(1024, thrustMapper.thrust_map.e - currentDeliveredThrust.e);
     }
     
     if (currentDeliveredThrust.f < thrustMapper.thrust_map.f) {
-      currentDeliveredThrust.f += MIN(1024, thrustMapper.thrust_map.f - currentDeliveredThrust.f)
+      currentDeliveredThrust.f += MIN(1024, thrustMapper.thrust_map.f - currentDeliveredThrust.f);
     } else {
-      currentDeliveredThrust.f += MAX(1024, thrustMapper.thrust_map.f - currentDeliveredThrust.f)
+      currentDeliveredThrust.f += MAX(1024, thrustMapper.thrust_map.f - currentDeliveredThrust.f);
     }
     
     if (currentDeliveredThrust.g < thrustMapper.thrust_map.g) {
-      currentDeliveredThrust.g += MIN(1024, thrustMapper.thrust_map.g - currentDeliveredThrust.g)
+      currentDeliveredThrust.g += MIN(1024, thrustMapper.thrust_map.g - currentDeliveredThrust.g);
     } else {
-      currentDeliveredThrust.g += MAX(1024, thrustMapper.thrust_map.g - currentDeliveredThrust.g)
+      currentDeliveredThrust.g += MAX(1024, thrustMapper.thrust_map.g - currentDeliveredThrust.g);
     }
     
     if (currentDeliveredThrust.h < thrustMapper.thrust_map.h) {
-      currentDeliveredThrust.h += MIN(1024, thrustMapper.thrust_map.h - currentDeliveredThrust.h)
+      currentDeliveredThrust.h += MIN(1024, thrustMapper.thrust_map.h - currentDeliveredThrust.h);
     } else {
-      currentDeliveredThrust.h += MAX(1024, thrustMapper.thrust_map.h - currentDeliveredThrust.h)
+      currentDeliveredThrust.h += MAX(1024, thrustMapper.thrust_map.h - currentDeliveredThrust.h);
     }
 
     //pseudo code

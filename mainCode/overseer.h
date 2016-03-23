@@ -1,3 +1,4 @@
+#include "Arduino_I2C_ESC.h"
 
 #ifndef OVERSEER
 #define OVERSEER
@@ -7,8 +8,7 @@
 #include "matrices.h"
 #include "thrust_mapper.h"
 
-#include <Wire.h>
-#include "Arduino_I2C_ESC.h"
+
 
 #define ESC_ADDRESS_0 0x29
 
@@ -63,7 +63,7 @@ class Overseer
 		void calculateAndPush(void);
 		void updateFromThrusters(void);
 		void scaleOverflow(vect8 * thrust_map, int32_t max);
-    	void doRamping(void);
+    void doRamping(void);
 		int flag_NewData;
     int is_Overflowing;
     void sendToMotors(void);
@@ -80,7 +80,7 @@ class Overseer
 		vect6 target_force;
         vect6 Tset;
         vect6 Tcurrent;
-  Arduino_I2C_ESC motors[8];
+  Arduino_I2C_ESC *motors[8]; //[8];
   vect8 currentDeliveredThrust;
     
     
