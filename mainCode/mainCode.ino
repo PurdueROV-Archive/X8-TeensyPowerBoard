@@ -34,7 +34,9 @@ void setup() {
   for( int idx=0; idx<8; ++idx ) {
     message.buf[idx] = 0x00;
   }*/
-
+  //start i2c
+  Wire.begin();
+  overseer.update(vect6Make(0,0,0,0,0,0), vect3Make(0,0,0), 0); 
 }
 
 void loop() {
@@ -71,6 +73,8 @@ void loop() {
   {
     overseer.doRamping();
     RampTicker = 0;
+  }else{
+    RampTicker++;
   }
 
   Serial.print(overseer.is_Overflowing);
