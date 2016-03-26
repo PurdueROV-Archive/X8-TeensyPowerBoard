@@ -203,13 +203,13 @@ void ThrustMapper::calculateThrustMap(void)
  */
 void ThrustMapper::calculateThrustMap(vect6 target_vector)
 {
-	/*desired_force_vector = div6(target_vector,1024);
+	desired_force_vector = div6(target_vector,1024);
 
 	// Calculations:
 	vect3 cross_result = cross(pivotPosition, desired_force_vector.R);
 	desired_force_vector.L.x += cross_result.x;
 	desired_force_vector.L.y += cross_result.y;
-	desired_force_vector.L.z += cross_result.z;*/
+	desired_force_vector.L.z += cross_result.z;
 	thrust_map = matMul_86x61(mapper_matrices.matrices[mapper_matrices.currentMapperMatrix], desired_force_vector);
 }
 
