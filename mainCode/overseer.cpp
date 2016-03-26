@@ -81,7 +81,7 @@ void Overseer::calculateAndPush(void)
     else
         is_Overflowing = 0;
 	// send the thrustMapper.thrust_map to the motors (thrusters) here:
- //sendToMotors();
+ sendToMotors();
 }
 
 void Overseer::sendToMotors(void)
@@ -99,21 +99,14 @@ void Overseer::sendToMotors(void)
   motors[7]->set(currentDeliveredThrust.h);*/
   //Serial.print("after");
 
-  vect8 thrusters;
-
-  if (is_Overflowing == 1)
-    thrusters = thrustMapper.thrust_map;
-  else
-    thrusters = currentDeliveredThrust; 
-  
-  motor0.set(thrusters.a);
-  motor1.set(thrusters.b);
-  motor2.set(thrusters.c);
-  motor3.set(thrusters.d);
-  motor4.set(thrusters.e);
-  motor5.set(thrusters.f);
-  motor6.set(thrusters.g);
-  motor7.set(thrusters.h);
+  motor0.set(currentDeliveredThrust.a);
+  motor1.set(currentDeliveredThrust.b);
+  motor2.set(currentDeliveredThrust.c);
+  motor3.set(currentDeliveredThrust.d);
+  motor4.set(currentDeliveredThrust.e);
+  motor5.set(currentDeliveredThrust.f);
+  motor6.set(currentDeliveredThrust.g);
+  motor7.set(currentDeliveredThrust.h);
   
 
   /*for(int i = 0; i < 8; i++)
