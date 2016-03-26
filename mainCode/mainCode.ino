@@ -111,7 +111,7 @@ void loop() {
           memcpy(&thrusters[4], &(message.buf[3]), 2);
           memcpy(&thrusters[5], &(message.buf[5]), 2);
     
-          char enabled = 255;
+          char enabled = 249; //remove motors 6 and 7 -- change to 246 to remove 5 and 8 instead
           Serial.print(" CAN: ");
           overseer.update(vect6Make(thrusters[0],thrusters[1],thrusters[2],thrusters[3],thrusters[4],thrusters[5]), vect3Make(0,0,0), enabled);
           timeout = 0;

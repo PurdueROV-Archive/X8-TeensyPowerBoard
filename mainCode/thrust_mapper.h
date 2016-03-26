@@ -16,7 +16,9 @@ typedef enum {
 	T6,
 	T7,
 	T8,
-	NONE
+	NONE,
+  T58,
+  T67
 } MapperMatrixIndex;
 
 typedef struct {
@@ -33,9 +35,10 @@ typedef struct {
 	matrix8_6 minus_t7;
 	matrix8_6 minus_t8;
 	matrix8_6 none;
-
+  matrix8_6 minus_t58;
+  matrix8_6 minus_t67;
 	// Array for the above matrices:
-	matrix8_6 matrices[10];
+	matrix8_6 matrices[12];
 
 } ThrustMapperMatrices;
 
