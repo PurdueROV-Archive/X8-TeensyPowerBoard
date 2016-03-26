@@ -25,7 +25,8 @@ void Arduino_I2C_ESC::readBuffer(uint8_t address, uint8_t buffer[]) {
 }
 
 // Send motor speed command to ESC
-void Arduino_I2C_ESC::set(int16_t throttle) {  
+void Arduino_I2C_ESC::set(int16_t throttle) {
+  Serial.print("Set things");  
   Wire.beginTransmission(_address);
   Wire.write(0x00);
   Wire.write(throttle>>8);

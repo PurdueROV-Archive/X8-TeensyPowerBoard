@@ -9,6 +9,16 @@
 
 #define MAIN_CAN_ID 0x13
 
+Arduino_I2C_ESC motor0(0x29);
+Arduino_I2C_ESC motor1(0x2a);
+Arduino_I2C_ESC motor2(0x2b);
+Arduino_I2C_ESC motor3(0x2c);
+Arduino_I2C_ESC motor4(0x2d);
+Arduino_I2C_ESC motor5(0x2e);
+Arduino_I2C_ESC motor6(0x2f);
+Arduino_I2C_ESC motor7(0x30);
+
+
 int led = 13;
 int d = 200;
 FlexCAN can(500000);
@@ -24,10 +34,11 @@ void setup() {
   pinMode(led, OUTPUT);
 
   //filter.id = 0x11;
-  //message.timeout = 0;
-  can.begin();
-  overseer = Overseer();
+  //message.timeout = 100;
+  
+  
   Serial.begin(115200);
+  Serial.print("hi there");
 
   /*message.len = 8;
   message.id = 0x13;
@@ -35,40 +46,36 @@ void setup() {
     message.buf[idx] = 0x00;
   }*/
   //start i2c
+  Serial.print("STARTING\n");
   Wire.begin();
-  overseer.update(vect6Make(0,0,0,0,0,0), vect3Make(0,0,0), 0); 
+  Serial.print("WIRE STARTED\n");
+  //overseer.update(vect6Make(0,0,0,0,0,0), vect3Make(0,0,0), 0); 
+  Serial.print("Hi");
+
+  can.begin();
+
+  
+
+  overseer = Overseer();
 }
 
 void loop() {
+  delay(50);
+  //Serial.print("Main loop");
   // put your main code here, to run repeatedly:
 
-  /* blink led
-  digitalWrite(led, HIGH);
-  delay(d);
-  digitalWrite(led, LOW);
-  delay(d); */
   
-  digitalWrite(led, LOW);
+  //digitalWrite(led, LOW);
   
-  Serial.print("Thrusters: ");
-  Serial.print(thrusters[0]);
-  Serial.print(" : ");
-  Serial.print(thrusters[1]);
-  Serial.print(" : ");
-  Serial.print(thrusters[2]);
-  Serial.print(" : ");
-  Serial.print(thrusters[3]);
-  Serial.print(" : ");
-  Serial.print(thrusters[4]);
-  Serial.print(" : ");
-  Serial.print(thrusters[5]);
-  Serial.print(" : ms: ");
-  Serial.print(millis() - period);
-  Serial.print("       ");
+  motor0.set(100);
 
+  motor0.update();
+
+
+  //Serial.print("Hello");
 
   overseer.checkForUpdate();
-
+  
   if (RampTicker >= 20)
   {
     overseer.doRamping();
@@ -77,64 +84,11 @@ void loop() {
     RampTicker++;
   }
 
-  Serial.print(overseer.is_Overflowing);
-  Serial.print(":");
-  Serial.print(overseer.getThrustMapper().getThrustMapperMatrices().currentMapperMatrix);
-  Serial.print(":");
-  Serial.print(overseer.areOverseerAndMapperCommunicating());
+ 
 
-  
-  
-  /*
-  Serial.print(overseer.flag_NewData);
-  Serial.print(" : ");
-  Serial.print(overseer.getThrustMapper().getCurrentForceVector().L.x);
-  Serial.print(" : ");
-  Serial.print(overseer.getThrustMapper().getCurrentForceVector().L.y);
-  Serial.print(" : ");
-  Serial.print(overseer.getThrustMapper().getCurrentForceVector().L.z);
-  Serial.print(" : ");
-  Serial.print(overseer.getThrustMapper().getCurrentForceVector().R.x);
-  Serial.print(" : ");
-  Serial.print(overseer.getThrustMapper().getCurrentForceVector().R.y);
-  Serial.print(" : ");
-  Serial.print(overseer.getThrustMapper().getCurrentForceVector().R.z);
-  Serial.print("      ");
-
-  Serial.print(overseer.getTargetForce().L.x);
-  Serial.print(" : ");
-  Serial.print(overseer.getTargetForce().L.y);
-  Serial.print(" : ");
-  Serial.print(overseer.getTargetForce().L.z);
-  Serial.print(" : ");
-  Serial.print(overseer.getTargetForce().R.x);
-  Serial.print(" : ");
-  Serial.print(overseer.getTargetForce().R.y);
-  Serial.print(" : ");
-  Serial.print(overseer.getTargetForce().R.z);
-  Serial.print("      ");*/
-  
-  Serial.print(" thrust_map: ");
-  Serial.print(overseer.getThrust_Map().a);
-  Serial.print(" : ");
-  Serial.print(overseer.getThrust_Map().b);
-  Serial.print(" : ");
-  Serial.print(overseer.getThrust_Map().c);
-  Serial.print(" : ");
-  Serial.print(overseer.getThrust_Map().d);
-  Serial.print(" : ");
-  Serial.print(overseer.getThrust_Map().e);
-  Serial.print(" : ");
-  Serial.print(overseer.getThrust_Map().f);
-  Serial.print(" : ");
-  Serial.print(overseer.getThrust_Map().g);
-  Serial.print(" : ");
-  Serial.print(overseer.getThrust_Map().h);
-
-  period = millis();
-
-  while(can.read(message)) {
-    
+  //period = millis();
+  if (can.available()) {
+  if(can.read(message)) {
     digitalWrite(led, HIGH);
     
     //if message came from main micro
@@ -159,5 +113,7 @@ void loop() {
       }
     }
   }
-  Serial.println(" ");
+  digitalWrite(led, LOW);
+  Serial.print(" ");
+  }
 }

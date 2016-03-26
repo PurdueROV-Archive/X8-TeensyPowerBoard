@@ -55,7 +55,7 @@ THE SOFTWARE.
 
 class Arduino_I2C_ESC {
 public:
-	Arduino_I2C_ESC(uint8_t address, uint8_t poleCount = 6);
+	Arduino_I2C_ESC(uint8_t address, uint8_t poleCount = 7);
 
 	void set(int16_t throttle);
 

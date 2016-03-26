@@ -15,9 +15,30 @@ Overseer::Overseer(void)
 		thrusters.currents[i] = 0;
 		thrusters.voltages[i] = 0;
 		thrusters.enabled[i] = 0;
-    motors[i] = new Arduino_I2C_ESC(ESC_ADDRESS_0+i);
+    //motors[i] = Arduino_I2C_ESC(ESC_ADDRESS_0+i);
 
   }
+  
+  
+  /*Arduino_I2C_ESC* motor0 = new Arduino_I2C_ESC(0x29);
+  Arduino_I2C_ESC* motor1 = new Arduino_I2C_ESC(0x2a);
+  Arduino_I2C_ESC* motor2 = new Arduino_I2C_ESC(0x2b);
+  Arduino_I2C_ESC* motor3 = new Arduino_I2C_ESC(0x2c);
+  Arduino_I2C_ESC* motor4 = new Arduino_I2C_ESC(0x2d);
+  Arduino_I2C_ESC* motor5 = new Arduino_I2C_ESC(0x2e);
+  Arduino_I2C_ESC* motor6 = new Arduino_I2C_ESC(0x2f);
+  Arduino_I2C_ESC* motor7 = new Arduino_I2C_ESC(0x30);
+  motors[0] = motor0;
+  motors[1] = motor1;
+  motors[2] = motor2;
+  motors[3] = motor3;
+  motors[4] = motor4;
+  motors[5] = motor5;
+  motors[6] = motor6;
+  motors[7] = motor7;*/
+
+  motor0.set(9);
+  
   target_force = vect6Make(0,0,0,0,0,0);
   flag_NewData = 0;
   is_Overflowing = 0;
@@ -66,18 +87,22 @@ void Overseer::calculateAndPush(void)
 void Overseer::sendToMotors(void)
 {
 
-  motors[0]->set(currentDeliveredThrust.a);
-  motors[1]->set(currentDeliveredThrust.b);
+  //Serial.print("before");
+  //Arduino_I2C_ESC* motor0 = new Arduino_I2C_ESC(0x29);
+  //motor0->set(4300);
+  /*motors[1]->set(currentDeliveredThrust.b);
   motors[2]->set(currentDeliveredThrust.c);
   motors[3]->set(currentDeliveredThrust.d);
   motors[4]->set(currentDeliveredThrust.e);
   motors[5]->set(currentDeliveredThrust.f);
   motors[6]->set(currentDeliveredThrust.g);
-  motors[7]->set(currentDeliveredThrust.h);
+  motors[7]->set(currentDeliveredThrust.h);*/
+  //Serial.print("after");
 
   for(int i = 0; i < 8; i++)
   {
-    motors[i]->update();
+    //Serial.print("Loop");
+    //motors[i]->update();
   }
 
 }
