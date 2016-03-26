@@ -4,13 +4,13 @@
 #define OVERSEER
 
 extern Arduino_I2C_ESC motor0;
-extern Arduino_I2C_ESC motor1(0x2a);
-extern Arduino_I2C_ESC motor2(0x2b);
-extern Arduino_I2C_ESC motor3(0x2c);
-extern Arduino_I2C_ESC motor4(0x2d);
-extern Arduino_I2C_ESC motor5(0x2e);
-extern Arduino_I2C_ESC motor6(0x2f);
-extern Arduino_I2C_ESC motor7(0x30);
+extern Arduino_I2C_ESC motor1;
+extern Arduino_I2C_ESC motor2;
+extern Arduino_I2C_ESC motor3;
+extern Arduino_I2C_ESC motor4;
+extern Arduino_I2C_ESC motor5;
+extern Arduino_I2C_ESC motor6;
+extern Arduino_I2C_ESC motor7;
 
 // INCLUDES:
 #include <stdint.h>

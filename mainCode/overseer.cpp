@@ -37,7 +37,7 @@ Overseer::Overseer(void)
   motors[6] = motor6;
   motors[7] = motor7;*/
 
-  motor0.set(9);
+  //motor0.set(9);
   
   target_force = vect6Make(0,0,0,0,0,0);
   flag_NewData = 0;
@@ -81,7 +81,7 @@ void Overseer::calculateAndPush(void)
     else
         is_Overflowing = 0;
 	// send the thrustMapper.thrust_map to the motors (thrusters) here:
- sendToMotors();
+ //sendToMotors();
 }
 
 void Overseer::sendToMotors(void)
@@ -99,11 +99,28 @@ void Overseer::sendToMotors(void)
   motors[7]->set(currentDeliveredThrust.h);*/
   //Serial.print("after");
 
-  for(int i = 0; i < 8; i++)
+  vect8 thrusters;
+
+  if (is_Overflowing == 1)
+    thrusters = thrustMapper.thrust_map;
+  else
+    thrusters = currentDeliveredThrust; 
+  
+  motor0.set(thrusters.a);
+  motor1.set(thrusters.b);
+  motor2.set(thrusters.c);
+  motor3.set(thrusters.d);
+  motor4.set(thrusters.e);
+  motor5.set(thrusters.f);
+  motor6.set(thrusters.g);
+  motor7.set(thrusters.h);
+  
+
+  /*for(int i = 0; i < 8; i++)
   {
     //Serial.print("Loop");
     //motors[i]->update();
-  }
+  }*/
 
 }
 

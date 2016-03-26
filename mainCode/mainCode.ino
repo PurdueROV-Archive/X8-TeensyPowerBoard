@@ -8,6 +8,7 @@
 
 
 #define MAIN_CAN_ID 0x13
+#define TIMEOUT_LIMIT 500
 
 Arduino_I2C_ESC motor0(0x29);
 Arduino_I2C_ESC motor1(0x2a);
@@ -27,6 +28,7 @@ CAN_message_t message;
 int16_t thrusters[6];
 volatile uint_fast8_t RampTicker;
 long period = 0;
+long timeout = 0;
 
 void setup() {
   // put your setup code here, to run once:
@@ -60,27 +62,32 @@ void setup() {
 }
 
 void loop() {
-  delay(50);
+  delay(1);
   //Serial.print("Main loop");
   // put your main code here, to run repeatedly:
 
   
   //digitalWrite(led, LOW);
   
-  motor0.set(100);
 
-  motor0.update();
 
 
   //Serial.print("Hello");
 
   overseer.checkForUpdate();
-  
-  if (RampTicker >= 20)
+
+  if (timeout >= TIMEOUT_LIMIT)
+  {
+    int8_t enabled = 0;
+    overseer.update(vect6Make(thrusters[0],thrusters[1],thrusters[2],thrusters[3],thrusters[4],thrusters[5]), vect3Make(0,0,0), enabled);
+    timeout++;
+  }
+  else if (RampTicker >= 20)
   {
     overseer.doRamping();
     RampTicker = 0;
   }else{
+    timeout++;
     RampTicker++;
   }
 
@@ -107,7 +114,7 @@ void loop() {
           char enabled = 255;
           Serial.print(" CAN: ");
           overseer.update(vect6Make(thrusters[0],thrusters[1],thrusters[2],thrusters[3],thrusters[4],thrusters[5]), vect3Make(0,0,0), enabled);
-          
+          timeout = 0;
           //Serial.print("\n");
           break;
       }
