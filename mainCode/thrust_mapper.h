@@ -17,8 +17,8 @@ typedef enum {
 	T7,
 	T8,
 	NONE,
-  T58,
-  T67
+	T58,
+	T67
 } MapperMatrixIndex;
 
 typedef struct {
@@ -35,8 +35,8 @@ typedef struct {
 	matrix8_6 minus_t7;
 	matrix8_6 minus_t8;
 	matrix8_6 none;
-  matrix8_6 minus_t58;
-  matrix8_6 minus_t67;
+	matrix8_6 minus_t58;
+	matrix8_6 minus_t67;
 	// Array for the above matrices:
 	matrix8_6 matrices[12];
 
@@ -66,7 +66,7 @@ class ThrustMapper
 		void calculateThrustMap(void);
 		void calculateThrustMap(vect6 target_vector);
 		void scaleNewtonsToInt(void);
-		void changeMapperMatrix(char enabled_thrusters);
+		void changeMapperMatrix(uint8_t enabled_thrusters);
 		vect6 getCurrentForceVector(void);
 		vect8 getThrustMap(void);
 		vect3 getPivotPosition(void);

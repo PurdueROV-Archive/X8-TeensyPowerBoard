@@ -117,32 +117,34 @@ ThrustMapper::ThrustMapper(void)
    
 
 
-	mapper_matrices.matrices[9].t1 = vect6Make(	   0,     0,     0,     0,     0,     0);
-	mapper_matrices.matrices[9].t2 = vect6Make(    0,     0,     0,     0,     0,     0);
-	mapper_matrices.matrices[9].t3 = vect6Make(    0,     0,     0,     0,     0,     0);
-	mapper_matrices.matrices[9].t4 = vect6Make(    0,     0,     0,     0,     0,     0);
-	mapper_matrices.matrices[9].t5 = vect6Make(    0,     0,     0,     0,     0,     0);
-	mapper_matrices.matrices[9].t6 = vect6Make(    0,     0,     0,     0,     0,     0);
-	mapper_matrices.matrices[9].t7 = vect6Make(    0,     0,     0,     0,     0,     0);
-	mapper_matrices.matrices[9].t8 = vect6Make(    0,     0,     0,     0,     0,     0);
+    mapper_matrices.matrices[9].t1 = vect6Make(	   0,     0,     0,     0,     0,     0);
+    mapper_matrices.matrices[9].t2 = vect6Make(    0,     0,     0,     0,     0,     0);
+    mapper_matrices.matrices[9].t3 = vect6Make(    0,     0,     0,     0,     0,     0);
+    mapper_matrices.matrices[9].t4 = vect6Make(    0,     0,     0,     0,     0,     0);
+    mapper_matrices.matrices[9].t5 = vect6Make(    0,     0,     0,     0,     0,     0);
+    mapper_matrices.matrices[9].t6 = vect6Make(    0,     0,     0,     0,     0,     0);
+    mapper_matrices.matrices[9].t7 = vect6Make(    0,     0,     0,     0,     0,     0);
+    mapper_matrices.matrices[9].t8 = vect6Make(    0,     0,     0,     0,     0,     0);
 
-  mapper_matrices.matrices[10].t1 = vect6Make(  272,   732,     0,     0,     0,  -131);
-  mapper_matrices.matrices[10].t2 = vect6Make(  272,  -732,     0,     0,     0,   131);
-  mapper_matrices.matrices[10].t3 = vect6Make( -272,   765,     0,     0,     0,   131);
-  mapper_matrices.matrices[10].t4 = vect6Make( -272,  -765,     0,     0,     0,  -131);
-  mapper_matrices.matrices[10].t5 = vect6Make(    0,     0,     0,     0,     0,     0);
-  mapper_matrices.matrices[10].t6 = vect6Make(  -14,   -18,   491,  -228,   175,     0);
-  mapper_matrices.matrices[10].t7 = vect6Make(   14,    18,   533,   228,  -174,     0);
-  mapper_matrices.matrices[10].t8 = vect6Make(    0,     0,     0,     0,     0,     0);
 
-  mapper_matrices.matrices[11].t1 = vect6Make(  272,   732,     0,     0,     0,  -131);
-  mapper_matrices.matrices[11].t2 = vect6Make(  272,  -732,     0,     0,     0,   131);
-  mapper_matrices.matrices[11].t3 = vect6Make( -272,   765,     0,     0,     0,   131);
-  mapper_matrices.matrices[11].t4 = vect6Make( -272,  -765,     0,     0,     0,  -131);
-  mapper_matrices.matrices[11].t5 = vect6Make(  -14,    18,   491,   228,   175,     0);
-  mapper_matrices.matrices[11].t6 = vect6Make(    0,     0,     0,     0,     0,     0);
-  mapper_matrices.matrices[11].t7 = vect6Make(    0,     0,     0,     0,     0,     0);
-  mapper_matrices.matrices[11].t8 = vect6Make(   14,   -18,   533,  -228,  -174,     0);
+
+    mapper_matrices.matrices[10].t1 = vect6Make(  272,   732,     0,     0,     0,  -131);
+    mapper_matrices.matrices[10].t2 = vect6Make(  272,  -732,     0,     0,     0,   131);
+    mapper_matrices.matrices[10].t3 = vect6Make( -272,   765,     0,     0,     0,   131);
+    mapper_matrices.matrices[10].t4 = vect6Make( -272,  -765,     0,     0,     0,  -131);
+    mapper_matrices.matrices[10].t5 = vect6Make(    0,     0,     0,     0,     0,     0);
+    mapper_matrices.matrices[10].t6 = vect6Make(  -14,   -18,   491,  -228,   175,     0);
+    mapper_matrices.matrices[10].t7 = vect6Make(   14,    18,   533,   228,  -174,     0);
+    mapper_matrices.matrices[10].t8 = vect6Make(    0,     0,     0,     0,     0,     0);
+
+    mapper_matrices.matrices[11].t1 = vect6Make(  272,   732,     0,     0,     0,  -131);
+    mapper_matrices.matrices[11].t2 = vect6Make(  272,  -732,     0,     0,     0,   131);
+    mapper_matrices.matrices[11].t3 = vect6Make( -272,   765,     0,     0,     0,   131);
+    mapper_matrices.matrices[11].t4 = vect6Make( -272,  -765,     0,     0,     0,  -131);
+    mapper_matrices.matrices[11].t5 = vect6Make(  -14,    18,   491,   228,   175,     0);
+    mapper_matrices.matrices[11].t6 = vect6Make(    0,     0,     0,     0,     0,     0);
+    mapper_matrices.matrices[11].t7 = vect6Make(    0,     0,     0,     0,     0,     0);
+    mapper_matrices.matrices[11].t8 = vect6Make(   14,   -18,   533,  -228,  -174,     0);
 
 
 
@@ -225,7 +227,7 @@ void ThrustMapper::calculateThrustMap(vect6 target_vector)
  *	enabled_thrusters = [1101][1111] = 223
  *
  */
-void ThrustMapper::changeMapperMatrix(char enabled_thrusters)
+void ThrustMapper::changeMapperMatrix(uint8_t enabled_thrusters)
 {
 	switch(enabled_thrusters)
 	{
@@ -256,14 +258,14 @@ void ThrustMapper::changeMapperMatrix(char enabled_thrusters)
 		case 127:
 			mapper_matrices.currentMapperMatrix = T1;
 			break;
-		case 0:
-			mapper_matrices.currentMapperMatrix = NONE;
-      break;
     case 249:
       mapper_matrices.currentMapperMatrix = T67;
       break;
     case 246:
       mapper_matrices.currentMapperMatrix = T58;
+      break;
+    case 0:
+      mapper_matrices.currentMapperMatrix = NONE;
       break;
 		default:
 			mapper_matrices.currentMapperMatrix = NONE;
