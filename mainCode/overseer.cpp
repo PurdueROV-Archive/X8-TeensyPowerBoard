@@ -48,7 +48,7 @@ Overseer::Overseer(void)
 // Gives new data to Overseer, and sets NEW_DATA_FLAG to NEW_DATA
 //
 // @note - Run in the interrupt. Does no calculations.
-void Overseer::update(vect6 force, vect3 pivotPos, char on_off)
+void Overseer::update(vect6 force, vect3 pivotPos, uint8_t on_off)
 {
 	target_force = force;
 	thrustMapper.adjustPivotPosition(pivotPos);

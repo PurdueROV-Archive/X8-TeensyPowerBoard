@@ -71,7 +71,7 @@ class Overseer
 {
 	public:
 		Overseer();
-		void update(vect6 force, vect3 pivotPos, char on_off);
+		void update(vect6 force, vect3 pivotPos, uint8_t on_off);
 		int checkForUpdate(void);
 		void calculateAndPush(void);
 		void updateFromThrusters(void);
