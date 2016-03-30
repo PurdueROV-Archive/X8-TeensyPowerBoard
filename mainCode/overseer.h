@@ -11,6 +11,7 @@ extern Arduino_I2C_ESC motor4;
 extern Arduino_I2C_ESC motor5;
 extern Arduino_I2C_ESC motor6;
 extern Arduino_I2C_ESC motor7;
+extern Arduino_I2C_ESC motors[8];
 
 // INCLUDES:
 #include <stdint.h>
