@@ -5,6 +5,7 @@
 #include <FlexCAN.h>
 #include <kinetis_flexcan.h>
 #include <stdlib.h>
+#include "hydraulics.h"
 
 
 #define MAIN_CAN_ID 0x13
@@ -24,6 +25,8 @@ int led = 13;
 int d = 200;
 FlexCAN can(500000);
 Overseer overseer;
+Hydraulics hydraulics = Hydraulics();
+uint8_t hydraulicsTarget = 0;
 CAN_message_t message;
 int16_t thrusters[6];
 volatile uint_fast8_t RampTicker;
@@ -86,6 +89,7 @@ void loop() {
   {
     overseer.doRamping();
     RampTicker = 0;
+	hydraulics.set(hydraulicsTarget);
   }else{
     timeout++;
     RampTicker++;
