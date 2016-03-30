@@ -99,14 +99,14 @@ void Overseer::sendToMotors(void)
   motors[7]->set(currentDeliveredThrust.h);*/
   //Serial.print("after");
 
-  motor0.set(currentDeliveredThrust.a);
-  motor1.set(currentDeliveredThrust.b);
-  motor2.set(currentDeliveredThrust.c);
-  motor3.set(currentDeliveredThrust.d);
-  motor4.set(currentDeliveredThrust.e);
-  motor5.set(currentDeliveredThrust.f);
-  motor6.set(currentDeliveredThrust.g);
-  motor7.set(currentDeliveredThrust.h);
+  motors[0].set(currentDeliveredThrust.a);
+  motors[1].set(currentDeliveredThrust.b);
+  motors[2].set(currentDeliveredThrust.c);
+  motors[3].set(currentDeliveredThrust.d);
+  motors[4].set(currentDeliveredThrust.e);
+  motors[5].set(currentDeliveredThrust.f);
+  motors[6].set(currentDeliveredThrust.g);
+  motors[7].set(currentDeliveredThrust.h);
   
 
   /*for(int i = 0; i < 8; i++)

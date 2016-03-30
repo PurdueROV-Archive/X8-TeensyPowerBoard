@@ -9,9 +9,9 @@
 
 
 #define MAIN_CAN_ID 0x13
-#define TIMEOUT_LIMIT 500
+#define TIMEOUT_LIMIT 500 
 
-Arduino_I2C_ESC motor0(0x29);
+Arduino_I2C_ESC motor0(0x29); 
 Arduino_I2C_ESC motor1(0x2a);
 Arduino_I2C_ESC motor2(0x2b);
 Arduino_I2C_ESC motor3(0x2c);
@@ -20,6 +20,8 @@ Arduino_I2C_ESC motor5(0x2e);
 Arduino_I2C_ESC motor6(0x2f);
 Arduino_I2C_ESC motor7(0x30);
 
+Arduino_I2C_ESC unmodified_motors[8] = {motor0, motor1, motor2, motor3, motor4, motor5, motor6, motor7};
+Arduino_I2C_ESC motors[8] = {motor0, motor1, motor2, motor3, motor4, motor5, motor6, motor7};
 
 int led = 13;
 int d = 200;
@@ -32,6 +34,7 @@ int16_t thrusters[6];
 volatile uint_fast8_t RampTicker;
 long period = 0;
 long timeout = 0;
+int16_t thrusterRemapping[3];
 
 void setup() {
   // put your setup code here, to run once:
@@ -111,6 +114,7 @@ void loop() {
           memcpy(&thrusters[2], &(message.buf[5]), 2);
           break;
         case 'R': // rotational data
+        {
           memcpy(&thrusters[3], &(message.buf[1]), 2);
           memcpy(&thrusters[4], &(message.buf[3]), 2);
           memcpy(&thrusters[5], &(message.buf[5]), 2);
@@ -120,7 +124,26 @@ void loop() {
           overseer.update(vect6Make(thrusters[0],thrusters[1],thrusters[2],thrusters[3],thrusters[4],thrusters[5]), vect3Make(0,0,0), enabled);
           timeout = 0;
           //Serial.print("\n");
+        }
           break;
+        
+        case 'T': //remap the horizontal motors 
+        {
+          memcpy(&thrusterRemapping[0],&(message.buf[1]), 2);
+          memcpy(&thrusterRemapping[1],&(message.buf[2]), 2);
+          memcpy(&thrusterRemapping[2],&(message.buf[3]), 2);
+
+          int i = 0;
+          int val = 0;
+          for(i = 0; i < 8; i++)
+          {
+             val = 4 * (thrusterRemapping[2] && 1 << i) + 2 * (thrusterRemapping[1] && 1 << i) + (thrusterRemapping[0] && 1 << i);
+             motors[i] = unmodified_motors[val];
+          }
+         }
+             
+          break;
+          
       }
     }
   }
