@@ -1,3 +1,6 @@
+#include "hydraulics.h"
+
+
 Hydraulics::Hydraulics (void) {
 	esc.attach(ESC_PIN);
 	inc = (MAX_VALUE - MIN_VALUE) / (1000 / RAMP_TIMING);

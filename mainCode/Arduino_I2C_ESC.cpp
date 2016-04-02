@@ -1,5 +1,5 @@
 #include "Arduino_I2C_ESC.h"
-#include <Wire.h>
+#include <i2c_t3.h>
 
 namespace {
   uint8_t _buffer[9];

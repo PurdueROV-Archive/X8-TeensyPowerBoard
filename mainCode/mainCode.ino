@@ -1,4 +1,4 @@
-#include <Wire.h>
+#include <i2c_t3.h>
 #include "matrices.h"
 #include "overseer.h"
 #include "thrust_mapper.h"
@@ -54,17 +54,20 @@ void setup() {
     message.buf[idx] = 0x00;
   }*/
   //start i2c
-  Serial.print("STARTING\n");
-  Wire.begin();
-  Serial.print("WIRE STARTED\n");
+  Serial.println("STARTING\n");
+  Wire.begin(I2C_MASTER, 0x00, I2C_PINS_18_19, I2C_PULLUP_EXT, I2C_RATE_400);
+  Serial.println("WIRE STARTED\n");
   //overseer.update(vect6Make(0,0,0,0,0,0), vect3Make(0,0,0), 0); 
   Serial.print("Hi");
 
   can.begin();
 
-  
-
   overseer = Overseer();
+
+  pinMode(13, OUTPUT);
+  digitalWrite(13, HIGH);
+
+  
 }
 
 void loop() {
@@ -76,9 +79,6 @@ void loop() {
   //digitalWrite(led, LOW);
   
 
-
-
-  //Serial.print("Hello");
 
   overseer.checkForUpdate();
 
@@ -120,7 +120,7 @@ void loop() {
           memcpy(&thrusters[5], &(message.buf[5]), 2);
     
           char enabled = 249; //remove motors 6 and 7 -- change to 246 to remove 5 and 8 instead
-          Serial.print(" CAN: ");
+          Serial.println(" CAN: ");
           overseer.update(vect6Make(thrusters[0],thrusters[1],thrusters[2],thrusters[3],thrusters[4],thrusters[5]), vect3Make(0,0,0), enabled);
           timeout = 0;
           //Serial.print("\n");
@@ -147,7 +147,7 @@ void loop() {
       }
     }
   }
-  digitalWrite(led, LOW);
-  Serial.print(" ");
+  //digitalWrite(led, LOW);
+  Serial.println(" ");
   }
 }
