@@ -55,9 +55,10 @@ void setup() {
   }*/
   //start i2c
   Serial.println("STARTING\n");
-  Wire.begin(I2C_MASTER, 0x00, I2C_PINS_18_19, I2C_PULLUP_EXT, I2C_RATE_400);
+  Wire.begin(I2C_MASTER, 0x00, I2C_PINS_18_19, I2C_PULLUP_INT, I2C_RATE_400);
+  Wire.setDefaultTimeout(3000);
   Serial.println("WIRE STARTED\n");
-  //overseer.update(vect6Make(0,0,0,0,0,0), vect3Make(0,0,0), 0); 
+  overseer.update(vect6Make(0,0,0,0,0,0), vect3Make(0,0,0), 0); 
   Serial.print("Hi");
 
   can.begin();
@@ -99,7 +100,6 @@ void loop() {
   }
 
  
-
   //period = millis();
   if (can.available()) {
   if(can.read(message)) {
@@ -123,6 +123,7 @@ void loop() {
           Serial.println(" CAN: ");
           overseer.update(vect6Make(thrusters[0],thrusters[1],thrusters[2],thrusters[3],thrusters[4],thrusters[5]), vect3Make(0,0,0), enabled);
           timeout = 0;
+          
           //Serial.print("\n");
         }
           break;
