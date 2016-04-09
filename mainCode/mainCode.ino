@@ -15,8 +15,8 @@
 thrusterPWMWrapper motor0(0x29,0); 
 thrusterPWMWrapper motor1(0x2a,0);
 thrusterPWMWrapper motor2(0x2b,0);
-thrusterPWMWrapper motor3(0x2c,1); //this motor uses pwm
-thrusterPWMWrapper motor4(0x2d,1); //this motor uses pwm
+thrusterPWMWrapper motor3(0x2c,1); //this motor uses pwm, change to the correct address when the motors are connected
+thrusterPWMWrapper motor4(0x2d,1); //this motor uses pwm, change to the correct address when the motors are connected
 thrusterPWMWrapper motor5(0x2e,0);
 thrusterPWMWrapper motor6(0x2f,0);
 thrusterPWMWrapper motor7(0x30,0);
