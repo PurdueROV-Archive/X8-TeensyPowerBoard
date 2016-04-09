@@ -1,17 +1,18 @@
 #include "Arduino_I2C_ESC.h"
+#include "thrusterPWMWrapper.h"
 
 #ifndef OVERSEER
 #define OVERSEER
 
-extern Arduino_I2C_ESC motor0;
-extern Arduino_I2C_ESC motor1;
-extern Arduino_I2C_ESC motor2;
-extern Arduino_I2C_ESC motor3;
-extern Arduino_I2C_ESC motor4;
-extern Arduino_I2C_ESC motor5;
-extern Arduino_I2C_ESC motor6;
-extern Arduino_I2C_ESC motor7;
-extern Arduino_I2C_ESC motors[8];
+extern thrusterPWMWrapper motor0;
+extern thrusterPWMWrapper motor1;
+extern thrusterPWMWrapper motor2;
+extern thrusterPWMWrapper motor3;
+extern thrusterPWMWrapper motor4;
+extern thrusterPWMWrapper motor5;
+extern thrusterPWMWrapper motor6;
+extern thrusterPWMWrapper motor7;
+extern thrusterPWMWrapper motors[8];
 
 // INCLUDES:
 #include <stdint.h>

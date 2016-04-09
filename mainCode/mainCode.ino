@@ -7,22 +7,22 @@
 #include <stdlib.h>
 #include <Servo.h>
 //#include "hydraulics.h"
-
+#include "thrusterPWMWrapper.h"
 
 #define MAIN_CAN_ID 0x13
 #define TIMEOUT_LIMIT 500 
 
-Arduino_I2C_ESC motor0(0x29); 
-Arduino_I2C_ESC motor1(0x2a);
-Arduino_I2C_ESC motor2(0x2b);
-Arduino_I2C_ESC motor3(0x2c);
-Arduino_I2C_ESC motor4(0x2d);
-Arduino_I2C_ESC motor5(0x2e);
-Arduino_I2C_ESC motor6(0x2f);
-Arduino_I2C_ESC motor7(0x30);
+thrusterPWMWrapper motor0(0x29,0); 
+thrusterPWMWrapper motor1(0x2a,0);
+thrusterPWMWrapper motor2(0x2b,0);
+thrusterPWMWrapper motor3(0x2c,1); //this motor uses pwm
+thrusterPWMWrapper motor4(0x2d,1); //this motor uses pwm
+thrusterPWMWrapper motor5(0x2e,0);
+thrusterPWMWrapper motor6(0x2f,0);
+thrusterPWMWrapper motor7(0x30,0);
 
-Arduino_I2C_ESC unmodified_motors[8] = {motor0, motor1, motor2, motor3, motor4, motor5, motor6, motor7};
-Arduino_I2C_ESC motors[8] = {motor0, motor1, motor2, motor3, motor4, motor5, motor6, motor7};
+thrusterPWMWrapper unmodified_motors[8] = {motor0, motor1, motor2, motor3, motor4, motor5, motor6, motor7};
+thrusterPWMWrapper motors[8] = {motor0, motor1, motor2, motor3, motor4, motor5, motor6, motor7};
 
 int led = 13;
 int d = 200;

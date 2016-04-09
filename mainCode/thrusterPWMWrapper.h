@@ -1,3 +1,5 @@
+#ifndef thrusterPWMWrapper__H
+#define thrusterPWMWrapper__H
 #include "Arduino_I2C_ESC.h"
 #include <Servo.h>
 
@@ -13,4 +15,4 @@ class thrusterPWMWrapper {
     Servo myservo;
 };
 
-
+#endif
