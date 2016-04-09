@@ -99,16 +99,21 @@ void Overseer::sendToMotors(void)
   motors[6]->set(currentDeliveredThrust.g);
   motors[7]->set(currentDeliveredThrust.h);*/
   //Serial.print("after");
-  if usePWM
-  
-  motors[0].set(currentDeliveredThrust.a);
-  motors[1].set(currentDeliveredThrust.b);
-  motors[2].set(currentDeliveredThrust.c);
-  motors[3].set(currentDeliveredThrust.d);
-  motors[4].set(currentDeliveredThrust.e);
-  motors[5].set(currentDeliveredThrust.f);
-  motors[6].set(currentDeliveredThrust.g);
-  motors[7].set(currentDeliveredThrust.h);
+  if (!usePWM) 
+  {
+    motors[0].set(currentDeliveredThrust.a);
+    motors[1].set(currentDeliveredThrust.b);
+    motors[2].set(currentDeliveredThrust.c);
+    motors[3].set(currentDeliveredThrust.d);
+    motors[4].set(currentDeliveredThrust.e);
+    motors[5].set(currentDeliveredThrust.f);
+    motors[6].set(currentDeliveredThrust.g);
+    motors[7].set(currentDeliveredThrust.h);
+  }
+  else
+  {
+    
+  }
   
 
   /*for(int i = 0; i < 8; i++)
@@ -239,10 +244,5 @@ int Overseer::areOverseerAndMapperCommunicating(void)
   vect6 currentForceVector = thrustMapper.getCurrentForceVector();
   
   return (target_force.L.x == currentForceVector.L.x && target_force.L.y == currentForceVector.L.y && target_force.L.z == currentForceVector.L.z && target_force.R.x == currentForceVector.R.x && target_force.R.y == currentForceVector.R.y && target_force.R.z == currentForceVector.R.z);
-}
-
-int Overseer::i2c_to_PWM(int i2c)
-{
-  return i2c;
 }
 

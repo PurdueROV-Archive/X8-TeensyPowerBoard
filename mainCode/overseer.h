@@ -81,7 +81,6 @@ class Overseer
 		int flag_NewData;
     int is_Overflowing;
     void sendToMotors(void);
-    int i2c_to_PWM(int i2c);
 
     // DEBUG METHODS:
     vect8 getThrust_Map(void);
