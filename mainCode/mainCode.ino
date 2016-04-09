@@ -5,7 +5,8 @@
 #include <FlexCAN.h>
 #include <kinetis_flexcan.h>
 #include <stdlib.h>
-#include "hydraulics.h"
+#include <Servo.h>
+//#include "hydraulics.h"
 
 
 #define MAIN_CAN_ID 0x13
@@ -27,7 +28,7 @@ int led = 13;
 int d = 200;
 FlexCAN can(500000);
 Overseer overseer;
-Hydraulics hydraulics = Hydraulics();
+//Hydraulics hydraulics = Hydraulics();
 uint8_t hydraulicsTarget = 0;
 CAN_message_t message;
 int16_t thrusters[6];
@@ -73,9 +74,10 @@ void setup() {
 
 void loop() {
   delay(1);
-  //Serial.print("Main loop");
+  Serial.print("Main loop");
   // put your main code here, to run repeatedly:
 
+  Serial.printf("%d\t%d\t%d\t%d\t%d\t%d\n",thrusters[0],thrusters[1],thrusters[2],thrusters[3],thrusters[4],thrusters[5]);
   
   //digitalWrite(led, LOW);
   
@@ -93,12 +95,11 @@ void loop() {
   {
     overseer.doRamping();
     RampTicker = 0;
-	hydraulics.set(hydraulicsTarget);
+	  //hydraulics.set(hydraulicsTarget);
   }else{
     timeout++;
     RampTicker++;
   }
-
  
   //period = millis();
   if (can.available()) {
@@ -119,7 +120,7 @@ void loop() {
           memcpy(&thrusters[4], &(message.buf[3]), 2);
           memcpy(&thrusters[5], &(message.buf[5]), 2);
     
-          char enabled = 249; //remove motors 6 and 7 -- change to 246 to remove 5 and 8 instead
+          char enabled = 255; //249 to remove motors 6 and 7 -- change to 246 to remove 5 and 8 instead
           Serial.println(" CAN: ");
           overseer.update(vect6Make(thrusters[0],thrusters[1],thrusters[2],thrusters[3],thrusters[4],thrusters[5]), vect3Make(0,0,0), enabled);
           timeout = 0;
@@ -128,7 +129,7 @@ void loop() {
         }
           break;
         
-        case 'T': //remap the horizontal motors 
+        case 'T': //remap the motors 
         {
           memcpy(&thrusterRemapping[0],&(message.buf[1]), 2);
           memcpy(&thrusterRemapping[1],&(message.buf[2]), 2);
@@ -152,3 +153,7 @@ void loop() {
   Serial.println(" ");
   }
 }
+
+
+
+

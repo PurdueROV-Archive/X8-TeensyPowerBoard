@@ -99,7 +99,6 @@ void Overseer::sendToMotors(void)
   motors[6]->set(currentDeliveredThrust.g);
   motors[7]->set(currentDeliveredThrust.h);*/
   //Serial.print("after");
-  if usePWM
   
   motors[0].set(currentDeliveredThrust.a);
   motors[1].set(currentDeliveredThrust.b);
