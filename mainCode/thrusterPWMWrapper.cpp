@@ -3,7 +3,8 @@
 thrusterPWMWrapper::thrusterPWMWrapper(int address, int pUsePWM)
 {
   if (!pUsePWM) {
-    esc = new Arduino_I2C_ESC(address);
+    //esc = new Arduino_I2C_ESC(address);
+    myaddress = address;
   }
   else
   {
