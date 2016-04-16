@@ -1,7 +1,10 @@
 #ifndef thrusterPWMWrapper__H
 #define thrusterPWMWrapper__H
 #include "Arduino_I2C_ESC.h"
+#include "Adafruit_PWMServoDriver.h"
 #include <Servo.h>
+
+extern Adafruit_PWMServoDriver driver;
 
 class thrusterPWMWrapper {
   public:
@@ -13,6 +16,7 @@ class thrusterPWMWrapper {
   private:
     Arduino_I2C_ESC *esc;
     Servo myservo;
+    int myaddress;
 };
 
 #endif

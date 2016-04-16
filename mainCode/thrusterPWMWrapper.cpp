@@ -15,7 +15,7 @@ void thrusterPWMWrapper::set(int value)
 {
   if (!usePWM)
   {
-    esc->set(value);
+    driver.setPWM(myaddress, 0, i2c_to_PWM(value));
   }
   else
   {

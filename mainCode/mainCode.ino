@@ -8,18 +8,21 @@
 #include <Servo.h>
 //#include "hydraulics.h"
 #include "thrusterPWMWrapper.h"
+#include "Adafruit_PWMServoDriver.h"
 
 #define MAIN_CAN_ID 0x13
 #define TIMEOUT_LIMIT 500 
 
-thrusterPWMWrapper motor0(0x29,0); 
-thrusterPWMWrapper motor1(0x2a,0);
-thrusterPWMWrapper motor2(0x2b,0);
-thrusterPWMWrapper motor3(0x2c,1); //this motor uses pwm, change to the correct address when the motors are connected
-thrusterPWMWrapper motor4(0x2d,1); //this motor uses pwm, change to the correct address when the motors are connected
-thrusterPWMWrapper motor5(0x2e,0);
-thrusterPWMWrapper motor6(0x2f,0);
-thrusterPWMWrapper motor7(0x30,0);
+Adafruit_PWMServoDriver driver = Adafruit_PWMServoDriver();
+
+thrusterPWMWrapper motor0(1,0); 
+thrusterPWMWrapper motor1(2,0);
+thrusterPWMWrapper motor2(3,0);
+thrusterPWMWrapper motor3(4,0); 
+thrusterPWMWrapper motor4(5,0); 
+thrusterPWMWrapper motor5(6,0);
+thrusterPWMWrapper motor6(7,0);
+thrusterPWMWrapper motor7(8,0);
 
 thrusterPWMWrapper unmodified_motors[8] = {motor0, motor1, motor2, motor3, motor4, motor5, motor6, motor7};
 thrusterPWMWrapper motors[8] = {motor0, motor1, motor2, motor3, motor4, motor5, motor6, motor7};
@@ -38,6 +41,12 @@ long timeout = 0;
 int16_t thrusterRemapping[3];
 
 void setup() {
+  //setup the PWM driver
+
+  driver.begin();
+  driver.setPWMFreq(1600);
+
+  
   // put your setup code here, to run once:
 
   pinMode(led, OUTPUT);
