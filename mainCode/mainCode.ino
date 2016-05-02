@@ -1,7 +1,7 @@
 #include <i2c_t3.h>
 #include "matrices.h"
-#include "overseer.h"
-#include "thrust_mapper.h"
+#include "overseer_teensy.h"
+//#include "thrust_mapper.h"
 #include <FlexCAN.h>
 #include <kinetis_flexcan.h>
 #include <stdlib.h>
@@ -30,9 +30,9 @@ thrusterPWMWrapper motors[8] = {motor0, motor1, motor2, motor3, motor4, motor5, 
 int led = 13;
 int d = 200;
 FlexCAN can(500000);
-Overseer overseer;
+OverseerT overseer;
 //Hydraulics hydraulics = Hydraulics();
-uint8_t hydraulicsTarget = 0;
+uint8_t * hydraulicsTarget;
 CAN_message_t message;
 int16_t thrusters[6];
 volatile uint_fast8_t RampTicker;
@@ -68,12 +68,13 @@ void setup() {
   Wire.begin(I2C_MASTER, 0x00, I2C_PINS_18_19, I2C_PULLUP_INT, I2C_RATE_400);
   Wire.setDefaultTimeout(3000);
   Serial.println("WIRE STARTED\n");
-  overseer.update(vect6Make(0,0,0,0,0,0), vect3Make(0,0,0), 0); 
+//  overseer.update(vect6Make(0,0,0,0,0,0), vect3Make(0,0,0), 0); 
   Serial.print("Hi");
 
   can.begin();
 
-  overseer = Overseer();
+  overseer = OverseerT();
+  *hydraulicsTarget = 0;
 
   pinMode(13, OUTPUT);
   digitalWrite(13, HIGH);
@@ -86,21 +87,25 @@ void loop() {
   Serial.print("Main loop");
   // put your main code here, to run repeatedly:
 
-  Serial.printf("%d\t%d\t%d\t%d\t%d\t%d\n",thrusters[0],thrusters[1],thrusters[2],thrusters[3],thrusters[4],thrusters[5]);
+  //Serial.printf("%d\t%d\t%d\t%d\t%d\t%d\n",thrusters[0],thrusters[1],thrusters[2],thrusters[3],thrusters[4],thrusters[5]);
   
   //digitalWrite(led, LOW);
   
 
 
-  overseer.checkForUpdate();
+  //overseer.checkForUpdate();
 
+  // If Timeout is exceeded, STOP MOTORS:
   if (timeout >= TIMEOUT_LIMIT)
   {
-    int8_t enabled = 0;
-    overseer.update(vect6Make(thrusters[0],thrusters[1],thrusters[2],thrusters[3],thrusters[4],thrusters[5]), vect3Make(0,0,0), enabled);
+    //int8_t enabled = 0;
+    //overseer.update(vect6Make(thrusters[0],thrusters[1],thrusters[2],thrusters[3],thrusters[4],thrusters[5]), vect3Make(0,0,0), enabled);
+    overseer.sendToMotors(vect8Make(0,0,0,0,0,0,0,0));
     timeout++;
   }
-  else if (RampTicker >= 20)
+  else
+    overseer.sendToMotors(vect8Make(thrusters[0], thrusters[1], thrusters[2], thrusters[3], thrusters[4], thrusters[5], thrusters[6], thrusters[7]));
+  /*else if (RampTicker >= 20)
   {
     overseer.doRamping();
     RampTicker = 0;
@@ -108,7 +113,7 @@ void loop() {
   }else{
     timeout++;
     RampTicker++;
-  }
+  }*/
  
   //period = millis();
   if (can.available()) {
@@ -119,19 +124,22 @@ void loop() {
     if (message.id == MAIN_CAN_ID && message.len == 8) {
       switch (message.buf[0]) {
         case 'L': // longitudinal data
-          memcpy(&thrusters[0], &(message.buf[1]), 2);
-          memcpy(&thrusters[1], &(message.buf[3]), 2);
-          memcpy(&thrusters[2], &(message.buf[5]), 2);
+          memcpy(&thrusters[0], &(message.buf[1]), 1);
+          memcpy(&thrusters[1], &(message.buf[2]), 1);
+          memcpy(&thrusters[2], &(message.buf[3]), 1);
+          memcpy(&thrusters[3], &(message.buf[4]), 1);
+          memcpy(&thrusters[4], &(message.buf[5]), 1);
+          memcpy(&thrusters[5], &(message.buf[6]), 1);
           break;
         case 'R': // rotational data
         {
-          memcpy(&thrusters[3], &(message.buf[1]), 2);
-          memcpy(&thrusters[4], &(message.buf[3]), 2);
-          memcpy(&thrusters[5], &(message.buf[5]), 2);
+          memcpy(&thrusters[6], &(message.buf[1]), 1);
+          memcpy(&thrusters[7], &(message.buf[2]), 1);
+          memcpy(hydraulicsTarget, &(message.buf[3]), 1);
     
-          char enabled = 255; //249 to remove motors 6 and 7 -- change to 246 to remove 5 and 8 instead
+          //char enabled = 255; //249 to remove motors 6 and 7 -- change to 246 to remove 5 and 8 instead
           Serial.println(" CAN: ");
-          overseer.update(vect6Make(thrusters[0],thrusters[1],thrusters[2],thrusters[3],thrusters[4],thrusters[5]), vect3Make(0,0,0), enabled);
+          //overseer.update(vect6Make(thrusters[0],thrusters[1],thrusters[2],thrusters[3],thrusters[4],thrusters[5]), vect3Make(0,0,0), enabled);
           timeout = 0;
           
           //Serial.print("\n");
